@@ -62,7 +62,7 @@ export default function App() {
     const p = { showToast, navigate };
     switch (activeTab) {
       case 'dashboard': return <Dashboard weightEntries={weightEntries} profile={profile} navigate={navigate} />;
-      case 'log': return <LogWeight onLog={handleLogWeight} {...p} />;
+      case 'log': return <LogWeight onLog={handleLogWeight} profile={profile} {...p} />;
       case 'goals': return <Goals profile={profile} setProfile={setProfile} weightEntries={weightEntries} {...p} />;
       case 'diet': return <DietPlan profile={profile} />;
       case 'exercise': return <Exercise />;

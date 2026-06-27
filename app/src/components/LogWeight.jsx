@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Scale, Upload, Check, Zap, Sun, Smile, Meh, Frown, Sparkles } from 'lucide-react';
+import { Scale, Upload, Check, Zap, Sun, Smile, Meh, Frown, Sparkles, Activity } from 'lucide-react';
 
 const moods = [
   { v: 'great', l: 'Great', icon: Zap, c: 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 shadow-[0_0_12px_rgba(52,211,153,0.1)]' },
@@ -9,27 +9,72 @@ const moods = [
   { v: 'bad', l: 'Bad', icon: Frown, c: 'bg-red-500/15 border-red-500/40 text-red-300 shadow-[0_0_12px_rgba(248,113,113,0.1)]' },
 ];
 
-export default function LogWeight({ onLog }) {
+const dayTypes = [
+  { v: 'working', l: 'Working Day', emoji: '💪', c: 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300' },
+  { v: 'cheat', l: 'Cheat Day', emoji: '🍕', c: 'bg-amber-500/15 border-amber-500/40 text-amber-300' },
+  { v: 'rest', l: 'Rest Day', emoji: '😴', c: 'bg-blue-500/15 border-blue-500/40 text-blue-300' },
+  { v: 'skip', l: 'Gave Up', emoji: '😞', c: 'bg-red-500/15 border-red-500/40 text-red-300' },
+];
+
+const painLabels = ['None', '', '🙂', '', 'Mild', '', '😣', '', 'Bad', '', '🔥 Severe'];
+
+function compressImage(dataUrl, maxWidth = 800, quality = 0.7) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let { width, height } = img;
+      if (width > maxWidth) {
+        height = (height * maxWidth) / width;
+        width = maxWidth;
+      }
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = dataUrl;
+  });
+}
+
+export default function LogWeight({ onLog, profile }) {
   const [weight, setWeight] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [note, setNote] = useState('');
   const [mood, setMood] = useState('');
+  const [dayType, setDayType] = useState('working');
+  const [painLevel, setPainLevel] = useState(0);
   const [preview, setPreview] = useState(null);
   const [saved, setSaved] = useState(false);
+  const [compressing, setCompressing] = useState(false);
 
-  const handleImg = (e) => { const f = e.target.files?.[0]; if (f) { const r = new FileReader(); r.onload = (ev) => setPreview(ev.target.result); r.readAsDataURL(f); } };
+  const hasSciatica = profile?.conditions?.includes('sciatica');
+
+  const handleImg = async (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setCompressing(true);
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      const compressed = await compressImage(ev.target.result);
+      setPreview(compressed);
+      setCompressing(false);
+    };
+    reader.readAsDataURL(f);
+  };
 
   const submit = (e) => {
     e.preventDefault();
     if (!weight) return;
-    onLog({ weight: parseFloat(weight), date, note, mood, image: preview, timestamp: Date.now() });
+    onLog({
+      weight: parseFloat(weight), date, note, mood, dayType,
+      painLevel: hasSciatica ? painLevel : undefined,
+      image: preview, timestamp: Date.now(),
+    });
     setSaved(true);
     setTimeout(() => {
-      setWeight('');
-      setNote('');
-      setMood('');
-      setPreview(null);
-      setSaved(false);
+      setWeight(''); setNote(''); setMood(''); setDayType('working');
+      setPainLevel(0); setPreview(null); setSaved(false);
       setDate(new Date().toISOString().split('T')[0]);
     }, 2000);
   };
@@ -61,6 +106,20 @@ export default function LogWeight({ onLog }) {
         </div>
 
         <div className="glass-card p-5 animate-fade-in-up stagger-2">
+          <label className="block text-[11px] font-bold text-[var(--text-dim)] uppercase tracking-widest mb-3">Day Type</label>
+          <div className="grid grid-cols-2 gap-2">
+            {dayTypes.map(d => (
+              <button key={d.v} type="button" onClick={() => setDayType(d.v)}
+                className={`flex items-center gap-2.5 px-4 py-3.5 rounded-[16px] text-[13px] font-bold border cursor-pointer
+                  transition-all duration-200 active:scale-[0.96]
+                  ${dayType === d.v ? d.c : 'bg-white/[0.03] border-white/[0.07] text-[var(--text-dim)]'}`}>
+                <span className="text-[16px]">{d.emoji}</span> {d.l}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="glass-card p-5 animate-fade-in-up stagger-3">
           <label className="block text-[11px] font-bold text-[var(--text-dim)] uppercase tracking-widest mb-3">How do you feel?</label>
           <div className="flex flex-wrap gap-2">
             {moods.map(m => {
@@ -68,7 +127,7 @@ export default function LogWeight({ onLog }) {
               return (
                 <button key={m.v} type="button" onClick={() => setMood(m.v === mood ? '' : m.v)}
                   className={`flex items-center gap-2 px-4 py-3 rounded-[16px] text-[13px] font-bold border cursor-pointer
-                    transition-all duration-250 active:scale-93
+                    transition-all duration-200 active:scale-[0.96]
                     ${mood === m.v ? m.c : 'bg-white/[0.03] border-white/[0.07] text-[var(--text-dim)]'}`}>
                   <Icon size={15} /> {m.l}
                 </button>
@@ -77,17 +136,50 @@ export default function LogWeight({ onLog }) {
           </div>
         </div>
 
-        <div className="glass-card p-5 animate-fade-in-up stagger-3">
+        {hasSciatica && (
+          <div className="glass-card p-5 animate-fade-in-up stagger-4">
+            <label className="block text-[11px] font-bold text-[var(--text-dim)] uppercase tracking-widest mb-3">
+              <span className="flex items-center gap-2"><Activity size={12} /> Sciatica Pain Level</span>
+            </label>
+            <div className="space-y-3">
+              <input type="range" min="0" max="10" value={painLevel} onChange={e => setPainLevel(parseInt(e.target.value))}
+                className="w-full h-2 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #34D399 0%, #FBBF24 50%, #F87171 100%)`,
+                  accentColor: painLevel <= 3 ? '#34D399' : painLevel <= 6 ? '#FBBF24' : '#F87171',
+                }} />
+              <div className="flex justify-between text-[11px] text-[var(--text-dim)]">
+                <span>No Pain</span>
+                <span className={`text-[14px] font-extrabold ${painLevel <= 3 ? 'text-emerald-400' : painLevel <= 6 ? 'text-amber-400' : 'text-red-400'}`}>
+                  {painLevel}/10 {painLabels[painLevel]}
+                </span>
+                <span>Severe</span>
+              </div>
+              {painLevel >= 7 && (
+                <div className="p-3 rounded-xl bg-red-500/[0.08] border border-red-500/15 text-[12px] text-red-300/80">
+                  High pain detected. Consider rest, ice therapy, and gentle stretching. Avoid heavy exercises today.
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div className="glass-card p-5 animate-fade-in-up stagger-4">
           <label className="block text-[11px] font-bold text-[var(--text-dim)] uppercase tracking-widest mb-2.5">Notes</label>
           <textarea value={note} onChange={(e) => setNote(e.target.value)}
             placeholder="How was your day? What did you eat?" rows={3}
             className="input-field resize-none leading-relaxed" />
         </div>
 
-        <div className="glass-card p-5 animate-fade-in-up stagger-4">
+        <div className="glass-card p-5 animate-fade-in-up stagger-5">
           <label className="block text-[11px] font-bold text-[var(--text-dim)] uppercase tracking-widest mb-2.5">Progress Photo</label>
-          {preview ? (
-            <div className="relative rounded-[20px] overflow-hidden">
+          {compressing ? (
+            <div className="flex flex-col items-center justify-center h-32 rounded-[20px] border-[1.5px] border-dashed border-purple-500/20">
+              <div className="w-8 h-8 border-2 border-purple-400 border-t-transparent rounded-full animate-spin mb-2" />
+              <span className="text-[12px] text-[var(--text-sub)]">Compressing photo...</span>
+            </div>
+          ) : preview ? (
+            <div className="relative rounded-[20px]" style={{ overflow: 'hidden' }}>
               <img src={preview} alt="Progress" className="w-full h-48 object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <button type="button" onClick={() => setPreview(null)}
@@ -109,11 +201,11 @@ export default function LogWeight({ onLog }) {
 
         <button type="submit" disabled={!weight || saved}
           className={`w-full py-4 rounded-[20px] font-bold text-white cursor-pointer flex items-center justify-center gap-2.5 text-[15px]
-            transition-all duration-250 active:scale-[0.96] animate-fade-in-up stagger-5
+            transition-all duration-200 active:scale-[0.96] animate-fade-in-up stagger-6
             ${saved
               ? 'bg-emerald-600 shadow-[0_8px_32px_rgba(52,211,153,0.3)]'
               : 'btn-primary disabled:opacity-30 disabled:cursor-not-allowed'}`}>
-          {saved ? <><Check size={18} /> Logged Successfully!</> : <><Sparkles size={18} /> Log Entry</>}
+          {saved ? <><Check size={18} /> Logged Successfully!</> : <><Sparkles size={18} className="relative z-10" /> Log Entry</>}
         </button>
       </form>
     </div>
