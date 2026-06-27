@@ -78,7 +78,7 @@ export default function ProgressPhotos({ weightEntries }) {
       </div>
 
       {mode === 'compare' && photosEntries.length >= 2 && (
-        <div className="glass-card p-5 animate-fade-in-up stagger-2">
+        <div className="glass-card animate-fade-in-up stagger-2" style={{ padding: '20px' }}>
           <h3 className="text-[13px] font-bold mb-4">Before & After</h3>
           <div className="flex gap-3">
             <div className="flex-1">
@@ -120,7 +120,7 @@ export default function ProgressPhotos({ weightEntries }) {
             const last = entries[0];
             const change = (first.weight - last.weight).toFixed(1);
             return (
-              <div key={month} className="glass-card p-5">
+              <div key={month} className="glass-card" style={{ padding: '20px' }}>
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-[14px] font-bold">{format(new Date(month + '-01'), 'MMMM yyyy')}</h3>
                   <span className={`text-[12px] font-bold ${parseFloat(change) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>

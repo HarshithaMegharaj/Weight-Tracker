@@ -203,6 +203,7 @@ h1, h2, h3 {
     rgba(139,92,246,0.15) 100%);
   opacity: 0;
   transition: opacity 0.3s;
+  pointer-events: none;
 }
 
 @media (hover: hover) {

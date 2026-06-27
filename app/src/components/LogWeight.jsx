@@ -2,18 +2,18 @@ import { useState } from 'react';
 import { Scale, Upload, Check, Zap, Sun, Smile, Meh, Frown, Sparkles, Activity } from 'lucide-react';
 
 const moods = [
-  { v: 'great', l: 'Great', icon: Zap, c: 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 shadow-[0_0_12px_rgba(52,211,153,0.1)]' },
-  { v: 'good', l: 'Good', icon: Sun, c: 'bg-blue-500/15 border-blue-500/40 text-blue-300 shadow-[0_0_12px_rgba(96,165,250,0.1)]' },
-  { v: 'okay', l: 'Okay', icon: Smile, c: 'bg-yellow-500/15 border-yellow-500/40 text-yellow-300 shadow-[0_0_12px_rgba(251,191,36,0.1)]' },
-  { v: 'tired', l: 'Tired', icon: Meh, c: 'bg-orange-500/15 border-orange-500/40 text-orange-300 shadow-[0_0_12px_rgba(251,146,60,0.1)]' },
-  { v: 'bad', l: 'Bad', icon: Frown, c: 'bg-red-500/15 border-red-500/40 text-red-300 shadow-[0_0_12px_rgba(248,113,113,0.1)]' },
+  { v: 'great', l: 'Great', icon: Zap, bg: 'rgba(16,185,129,0.15)', bc: 'rgba(16,185,129,0.4)', tc: '#6ee7b7' },
+  { v: 'good', l: 'Good', icon: Sun, bg: 'rgba(59,130,246,0.15)', bc: 'rgba(59,130,246,0.4)', tc: '#93c5fd' },
+  { v: 'okay', l: 'Okay', icon: Smile, bg: 'rgba(234,179,8,0.15)', bc: 'rgba(234,179,8,0.4)', tc: '#fde047' },
+  { v: 'tired', l: 'Tired', icon: Meh, bg: 'rgba(249,115,22,0.15)', bc: 'rgba(249,115,22,0.4)', tc: '#fdba74' },
+  { v: 'bad', l: 'Bad', icon: Frown, bg: 'rgba(239,68,68,0.15)', bc: 'rgba(239,68,68,0.4)', tc: '#fca5a5' },
 ];
 
 const dayTypes = [
-  { v: 'working', l: 'Working Day', emoji: '💪', c: 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300' },
-  { v: 'cheat', l: 'Cheat Day', emoji: '🍕', c: 'bg-amber-500/15 border-amber-500/40 text-amber-300' },
-  { v: 'rest', l: 'Rest Day', emoji: '😴', c: 'bg-blue-500/15 border-blue-500/40 text-blue-300' },
-  { v: 'skip', l: 'Gave Up', emoji: '😞', c: 'bg-red-500/15 border-red-500/40 text-red-300' },
+  { v: 'working', l: 'Working Day', emoji: '💪', bg: 'rgba(16,185,129,0.15)', bc: 'rgba(16,185,129,0.4)', tc: '#6ee7b7' },
+  { v: 'cheat', l: 'Cheat Day', emoji: '🍕', bg: 'rgba(245,158,11,0.15)', bc: 'rgba(245,158,11,0.4)', tc: '#fcd34d' },
+  { v: 'rest', l: 'Rest Day', emoji: '😴', bg: 'rgba(59,130,246,0.15)', bc: 'rgba(59,130,246,0.4)', tc: '#93c5fd' },
+  { v: 'skip', l: 'Gave Up', emoji: '😞', bg: 'rgba(239,68,68,0.15)', bc: 'rgba(239,68,68,0.4)', tc: '#fca5a5' },
 ];
 
 const painLabels = ['None', '', '🙂', '', 'Mild', '', '😣', '', 'Bad', '', '🔥 Severe'];
@@ -87,15 +87,15 @@ export default function LogWeight({ onLog, profile }) {
       </div>
 
       <form onSubmit={submit} className="space-y-4">
-        <div className="glass-card p-5 space-y-4 animate-fade-in-up stagger-1">
+        <div className="glass-card space-y-4 animate-fade-in-up stagger-1" style={{ padding: '20px' }}>
           <div>
             <label className="block text-[11px] font-bold text-[var(--text-dim)] uppercase tracking-widest mb-2.5">Weight (kg)</label>
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-[14px] bg-gradient-to-br from-purple-500/20 to-indigo-600/10 flex items-center justify-center border border-purple-500/10">
+            <div style={{ position: 'relative' }}>
+              <div style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', width: '40px', height: '40px', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(to bottom right, rgba(139,92,246,0.2), rgba(79,70,229,0.1))', border: '1px solid rgba(139,92,246,0.1)' }}>
                 <Scale size={16} className="text-purple-400" />
               </div>
               <input type="number" step="0.1" min="20" max="300" value={weight} onChange={(e) => setWeight(e.target.value)}
-                placeholder="Enter weight" required className="input-field pl-[72px] text-xl font-extrabold" />
+                placeholder="Enter weight" required className="input-field text-xl font-extrabold" style={{ paddingLeft: '68px' }} />
             </div>
           </div>
 
@@ -105,30 +105,44 @@ export default function LogWeight({ onLog, profile }) {
           </div>
         </div>
 
-        <div className="glass-card p-5 animate-fade-in-up stagger-2">
+        <div className="glass-card animate-fade-in-up stagger-2" style={{ padding: '20px' }}>
           <label className="block text-[11px] font-bold text-[var(--text-dim)] uppercase tracking-widest mb-3">Day Type</label>
-          <div className="grid grid-cols-2 gap-2">
-            {dayTypes.map(d => (
-              <button key={d.v} type="button" onClick={() => setDayType(d.v)}
-                className={`flex items-center gap-2.5 px-4 py-3.5 rounded-[16px] text-[13px] font-bold border cursor-pointer
-                  transition-all duration-200 active:scale-[0.96]
-                  ${dayType === d.v ? d.c : 'bg-white/[0.03] border-white/[0.07] text-[var(--text-dim)]'}`}>
-                <span className="text-[16px]">{d.emoji}</span> {d.l}
-              </button>
-            ))}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            {dayTypes.map(d => {
+              const isActive = dayType === d.v;
+              return (
+                <button key={d.v} type="button" onClick={() => setDayType(d.v)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '10px',
+                    padding: '14px 16px', borderRadius: '16px', fontSize: '13px', fontWeight: 700,
+                    cursor: 'pointer', transition: 'all 0.2s', borderWidth: '1.5px', borderStyle: 'solid',
+                    background: isActive ? d.bg : 'rgba(255,255,255,0.03)',
+                    borderColor: isActive ? d.bc : 'rgba(255,255,255,0.07)',
+                    color: isActive ? d.tc : 'var(--text-dim)',
+                  }}>
+                  <span style={{ fontSize: '16px' }}>{d.emoji}</span> {d.l}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        <div className="glass-card p-5 animate-fade-in-up stagger-3">
+        <div className="glass-card animate-fade-in-up stagger-3" style={{ padding: '20px' }}>
           <label className="block text-[11px] font-bold text-[var(--text-dim)] uppercase tracking-widest mb-3">How do you feel?</label>
-          <div className="flex flex-wrap gap-2">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {moods.map(m => {
               const Icon = m.icon;
+              const isActive = mood === m.v;
               return (
                 <button key={m.v} type="button" onClick={() => setMood(m.v === mood ? '' : m.v)}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-[16px] text-[13px] font-bold border cursor-pointer
-                    transition-all duration-200 active:scale-[0.96]
-                    ${mood === m.v ? m.c : 'bg-white/[0.03] border-white/[0.07] text-[var(--text-dim)]'}`}>
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '8px',
+                    padding: '12px 16px', borderRadius: '16px', fontSize: '13px', fontWeight: 700,
+                    cursor: 'pointer', transition: 'all 0.2s', borderWidth: '1.5px', borderStyle: 'solid',
+                    background: isActive ? m.bg : 'rgba(255,255,255,0.03)',
+                    borderColor: isActive ? m.bc : 'rgba(255,255,255,0.07)',
+                    color: isActive ? m.tc : 'var(--text-dim)',
+                  }}>
                   <Icon size={15} /> {m.l}
                 </button>
               );
@@ -137,9 +151,9 @@ export default function LogWeight({ onLog, profile }) {
         </div>
 
         {hasSciatica && (
-          <div className="glass-card p-5 animate-fade-in-up stagger-4">
+          <div className="glass-card animate-fade-in-up stagger-4" style={{ padding: '20px' }}>
             <label className="block text-[11px] font-bold text-[var(--text-dim)] uppercase tracking-widest mb-3">
-              <span className="flex items-center gap-2"><Activity size={12} /> Sciatica Pain Level</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Activity size={12} /> Sciatica Pain Level</span>
             </label>
             <div className="space-y-3">
               <input type="range" min="0" max="10" value={painLevel} onChange={e => setPainLevel(parseInt(e.target.value))}
@@ -164,14 +178,14 @@ export default function LogWeight({ onLog, profile }) {
           </div>
         )}
 
-        <div className="glass-card p-5 animate-fade-in-up stagger-4">
+        <div className="glass-card animate-fade-in-up stagger-4" style={{ padding: '20px' }}>
           <label className="block text-[11px] font-bold text-[var(--text-dim)] uppercase tracking-widest mb-2.5">Notes</label>
           <textarea value={note} onChange={(e) => setNote(e.target.value)}
             placeholder="How was your day? What did you eat?" rows={3}
             className="input-field resize-none leading-relaxed" />
         </div>
 
-        <div className="glass-card p-5 animate-fade-in-up stagger-5">
+        <div className="glass-card animate-fade-in-up stagger-5" style={{ padding: '20px' }}>
           <label className="block text-[11px] font-bold text-[var(--text-dim)] uppercase tracking-widest mb-2.5">Progress Photo</label>
           {compressing ? (
             <div className="flex flex-col items-center justify-center h-32 rounded-[20px] border-[1.5px] border-dashed border-purple-500/20">

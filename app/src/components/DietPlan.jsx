@@ -81,7 +81,7 @@ export default function DietPlan() {
 
       {tab === 'plan' && (
         <>
-          <div className="glass-card p-5 animate-fade-in-up stagger-1">
+          <div className="glass-card animate-fade-in-up stagger-1" style={{ padding: '20px' }}>
             <p className="text-[10px] text-[var(--text-dim)] font-bold uppercase tracking-widest">Daily Target</p>
             <div className="flex items-baseline gap-1 mt-1">
               <span className="text-[28px] font-extrabold gradient-text">~{totalCal}</span>
@@ -89,7 +89,7 @@ export default function DietPlan() {
             </div>
           </div>
           <div className="space-y-2.5">{meals.map((m, i) => <MealCard key={i} meal={m} idx={i} />)}</div>
-          <div className="glass-card p-5 animate-fade-in-up">
+          <div className="glass-card animate-fade-in-up" style={{ padding: '20px' }}>
             <h3 className="text-[13px] font-bold text-red-400/80 mb-4 flex items-center gap-2.5"><AlertTriangle size={14} /> Avoid</h3>
             <div className="grid grid-cols-1 gap-3">
               {avoid.map((it, i) => (

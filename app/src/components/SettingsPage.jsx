@@ -61,7 +61,7 @@ export default function SettingsPage({ weightEntries, setWeightEntries, profile,
         <h1 className="text-[28px] font-extrabold mt-1">Settings</h1>
       </div>
 
-      <div className="glass-card p-5 space-y-2.5 animate-fade-in-up stagger-1">
+      <div className="glass-card space-y-2.5 animate-fade-in-up stagger-1" style={{ padding: '20px' }}>
         <h3 className="text-[13px] font-bold flex items-center gap-2.5 mb-3">
           <div className="w-9 h-9 rounded-[12px] bg-gradient-to-br from-purple-500/20 to-indigo-500/10 flex items-center justify-center border border-purple-500/10">
             <Database size={15} className="text-purple-400" />
@@ -108,7 +108,7 @@ export default function SettingsPage({ weightEntries, setWeightEntries, profile,
         </button>
       </div>
 
-      <div className="glass-card p-5 animate-fade-in-up stagger-2">
+      <div className="glass-card animate-fade-in-up stagger-2" style={{ padding: '20px' }}>
         <h3 className="text-[13px] font-bold flex items-center gap-2.5 mb-4">
           <div className="w-9 h-9 rounded-[12px] bg-gradient-to-br from-indigo-500/20 to-purple-500/10 flex items-center justify-center border border-indigo-500/10">
             <BarChart3 size={15} className="text-indigo-400" />
@@ -125,7 +125,7 @@ export default function SettingsPage({ weightEntries, setWeightEntries, profile,
         </div>
       </div>
 
-      <div className="glass-card p-5 animate-fade-in-up stagger-3">
+      <div className="glass-card animate-fade-in-up stagger-3" style={{ padding: '20px' }}>
         <p className="text-[11px] text-[var(--text-dim)] text-center font-semibold">FitGlow v1.0</p>
         <p className="text-[10px] text-[var(--text-dim)]/50 text-center mt-1">Your personal fitness companion</p>
       </div>

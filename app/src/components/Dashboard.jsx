@@ -152,7 +152,7 @@ export default function Dashboard({ weightEntries, profile, navigate }) {
       </div>
 
       {weeklyRecap && (
-        <div className="glass-card p-5 animate-fade-in-up stagger-5">
+        <div className="glass-card animate-fade-in-up stagger-5" style={{ padding: '20px' }}>
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-bold flex items-center gap-2">
               <Calendar size={14} className="text-purple-400" /> Weekly Recap
@@ -185,7 +185,7 @@ export default function Dashboard({ weightEntries, profile, navigate }) {
         </div>
       )}
 
-      <div className="glass-card p-5 animate-fade-in-up stagger-5">
+      <div className="glass-card animate-fade-in-up stagger-5" style={{ padding: '20px' }}>
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-bold">Weight Trend</h3>
           <span className="text-[10px] text-[var(--text-dim)] font-semibold uppercase tracking-wider">Last 30 days</span>
@@ -210,7 +210,7 @@ export default function Dashboard({ weightEntries, profile, navigate }) {
       </div>
 
       {photoComparison && (
-        <div className="glass-card p-5 animate-fade-in-up stagger-6" onClick={() => navigate('progress')}>
+        <div className="glass-card animate-fade-in-up stagger-6" style={{ padding: '20px' }} onClick={() => navigate('progress')}>
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-bold flex items-center gap-2">
               <Camera size={14} className="text-purple-400" /> Transformation

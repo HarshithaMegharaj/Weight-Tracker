@@ -118,7 +118,7 @@ export default function Exercise() {
             ))}
           </div>
 
-          <div className="glass-card p-5 animate-fade-in-up stagger-3">
+          <div className="glass-card animate-fade-in-up stagger-3" style={{ padding: '20px' }}>
             <div className="flex items-center justify-between mb-5">
               <div>
                 <h3 className="text-[17px] font-extrabold">{plan.d} — {plan.type}</h3>
@@ -151,7 +151,7 @@ export default function Exercise() {
             </div>
           </div>
 
-          <div className="glass-card p-5 animate-fade-in-up stagger-4">
+          <div className="glass-card animate-fade-in-up stagger-4" style={{ padding: '20px' }}>
             <h3 className="text-[13px] font-bold text-red-400/80 mb-4 flex items-center gap-2.5"><AlertTriangle size={14} /> Avoid with Sciatica</h3>
             <div className="grid grid-cols-1 gap-3">
               {avoidList.map((it, i) => (
@@ -166,7 +166,7 @@ export default function Exercise() {
 
       {tab === 'sciatica' && (
         <div className="space-y-3 animate-fade-in-up stagger-2">
-          <div className="glass-card p-5">
+          <div className="glass-card" style={{ padding: '20px' }}>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-11 h-11 rounded-[14px] bg-gradient-to-br from-blue-500/20 to-indigo-500/10 flex items-center justify-center border border-blue-500/15">
                 <Heart size={18} className="text-blue-400" />
@@ -194,7 +194,7 @@ export default function Exercise() {
             </div>
           </div>
 
-          <div className="glass-card p-5">
+          <div className="glass-card" style={{ padding: '20px' }}>
             <h3 className="text-[13px] font-bold mb-3 flex items-center gap-2">
               <Zap size={14} className="text-amber-400" /> Daily Sciatica Routine (10 min)
             </h3>
@@ -212,7 +212,7 @@ export default function Exercise() {
 
       {tab === 'flareup' && (
         <div className="space-y-3 animate-fade-in-up stagger-2">
-          <div className="glass-card p-5 bg-red-500/[0.03] border-red-500/10">
+          <div className="glass-card bg-red-500/[0.03] border-red-500/10" style={{ padding: '20px' }}>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-11 h-11 rounded-[14px] bg-gradient-to-br from-red-500/20 to-orange-500/10 flex items-center justify-center border border-red-500/15">
                 <Shield size={18} className="text-red-400" />
@@ -235,7 +235,7 @@ export default function Exercise() {
             </div>
           </div>
 
-          <div className="glass-card p-5">
+          <div className="glass-card" style={{ padding: '20px' }}>
             <h3 className="text-[13px] font-bold text-emerald-400/80 mb-3 flex items-center gap-2"><CheckCircle size={14} /> Prevention Tips</h3>
             <ul className="space-y-3 text-[13px] text-[var(--text-sub)]">
               {[
@@ -258,7 +258,7 @@ export default function Exercise() {
       )}
 
       {tab === 'plan' && (
-        <div className="glass-card p-5 bg-emerald-500/[0.02] border-emerald-500/10 animate-fade-in-up stagger-5">
+        <div className="glass-card bg-emerald-500/[0.02] border-emerald-500/10 animate-fade-in-up stagger-5" style={{ padding: '20px' }}>
           <h3 className="text-[13px] font-bold text-emerald-400/80 mb-3 flex items-center gap-2"><CheckCircle size={14} /> Pain Management</h3>
           <ul className="space-y-2.5 text-[13px] text-[var(--text-sub)]">
             {['Heat pack before exercise (15 min)', 'Ice after if flare-up (10 min)', 'Stop at sharp/shooting pain', 'Daily pigeon pose + knee-to-chest', 'Strengthen core for spine support', 'Pillow between knees when sleeping'].map((t, i) => (
