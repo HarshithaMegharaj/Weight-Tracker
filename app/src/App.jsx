@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Sidebar from './components/Sidebar';
+import BottomNav from './components/BottomNav';
 import Dashboard from './components/Dashboard';
 import LogWeight from './components/LogWeight';
 import Goals from './components/Goals';
@@ -15,118 +15,79 @@ function useLocalStorage(key, defaultValue) {
     try {
       const stored = localStorage.getItem(key);
       return stored ? JSON.parse(stored) : defaultValue;
-    } catch {
-      return defaultValue;
-    }
+    } catch { return defaultValue; }
   });
-
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value));
-  }, [key, value]);
-
+  useEffect(() => { localStorage.setItem(key, JSON.stringify(value)); }, [key, value]);
   return [value, setValue];
 }
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [prevTab, setPrevTab] = useState('dashboard');
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [toast, setToast] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [weightEntries, setWeightEntries] = useLocalStorage('fitglow-weights', []);
   const [profile, setProfile] = useLocalStorage('fitglow-profile', {
-    name: '',
-    age: '',
-    height: 165,
-    gender: 'female',
-    activityLevel: 'moderate',
-    goalWeight: null,
-    weeklyTarget: 0.5,
-    conditions: ['sciatica'],
+    name: '', age: '', height: 165, gender: 'female', activityLevel: 'moderate',
+    goalWeight: null, weeklyTarget: 0.5, conditions: ['sciatica'],
     dietPrefs: ['no-beef', 'chicken', 'fish', 'mutton', 'eggs', 'dairy'],
-    country: 'India',
-    painNotes: '',
+    country: 'India', painNotes: '',
   });
 
-  const showToast = (message, type = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
+  const showToast = (msg, type = 'success') => {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 2500);
   };
 
-  const handleTabChange = (tab) => {
+  const navigate = (tab) => {
     if (tab === activeTab) return;
+    setDrawerOpen(false);
     setIsTransitioning(true);
-    setPrevTab(activeTab);
-    setTimeout(() => {
-      setActiveTab(tab);
-      setIsTransitioning(false);
-    }, 150);
+    setTimeout(() => { setActiveTab(tab); setIsTransitioning(false); }, 120);
   };
 
   const handleLogWeight = (entry) => {
     setWeightEntries(prev => [...prev, entry]);
-    showToast('Weight logged successfully!');
+    showToast('Weight logged!');
   };
 
   const renderContent = () => {
-    const props = { showToast };
+    const p = { showToast, navigate };
     switch (activeTab) {
-      case 'dashboard':
-        return <Dashboard weightEntries={weightEntries} profile={profile} onTabChange={handleTabChange} />;
-      case 'log':
-        return <LogWeight onLog={handleLogWeight} {...props} />;
-      case 'goals':
-        return <Goals profile={profile} setProfile={setProfile} weightEntries={weightEntries} {...props} />;
-      case 'diet':
-        return <DietPlan profile={profile} />;
-      case 'exercise':
-        return <Exercise />;
-      case 'health':
-        return <HealthProfile profile={profile} setProfile={setProfile} {...props} />;
-      case 'progress':
-        return <ProgressPhotos weightEntries={weightEntries} />;
-      case 'trainer':
-        return <AITrainer profile={profile} weightEntries={weightEntries} />;
-      case 'settings':
-        return <SettingsPage
-          weightEntries={weightEntries} setWeightEntries={setWeightEntries}
-          profile={profile} setProfile={setProfile} {...props}
-        />;
-      default:
-        return <Dashboard weightEntries={weightEntries} profile={profile} onTabChange={handleTabChange} />;
+      case 'dashboard': return <Dashboard weightEntries={weightEntries} profile={profile} navigate={navigate} />;
+      case 'log': return <LogWeight onLog={handleLogWeight} {...p} />;
+      case 'goals': return <Goals profile={profile} setProfile={setProfile} weightEntries={weightEntries} {...p} />;
+      case 'diet': return <DietPlan profile={profile} />;
+      case 'exercise': return <Exercise />;
+      case 'health': return <HealthProfile profile={profile} setProfile={setProfile} {...p} />;
+      case 'progress': return <ProgressPhotos weightEntries={weightEntries} />;
+      case 'trainer': return <AITrainer profile={profile} weightEntries={weightEntries} />;
+      case 'settings': return <SettingsPage weightEntries={weightEntries} setWeightEntries={setWeightEntries} profile={profile} setProfile={setProfile} {...p} />;
+      default: return <Dashboard weightEntries={weightEntries} profile={profile} navigate={navigate} />;
     }
   };
 
   return (
-    <div className="min-h-screen gradient-bg relative overflow-hidden">
-      <div className="blob w-[600px] h-[600px] bg-purple-600 -top-64 -right-64" />
-      <div className="blob w-[500px] h-[500px] bg-teal-600 bottom-0 -left-48" style={{ animationDelay: '5s' }} />
-      <div className="blob w-[400px] h-[400px] bg-indigo-600 top-1/3 right-1/3" style={{ animationDelay: '10s' }} />
-      <div className="blob w-[300px] h-[300px] bg-fuchsia-600 bottom-1/4 right-1/4" style={{ animationDelay: '15s' }} />
+    <div className="min-h-dvh gradient-bg relative">
+      <div className="blob w-[350px] h-[350px] bg-purple-600 -top-32 -right-32" />
+      <div className="blob w-[280px] h-[280px] bg-teal-600 bottom-32 -left-20" style={{ animationDelay: '8s' }} />
+      <div className="blob w-[200px] h-[200px] bg-indigo-600 top-1/2 left-1/2" style={{ animationDelay: '16s' }} />
 
-      <Sidebar activeTab={activeTab} setActiveTab={handleTabChange} />
-
-      <main
-        className="relative"
-        style={{ marginLeft: '280px', minHeight: '100vh', padding: '2rem 2.5rem 2rem 2rem' }}
-      >
-        <div
-          className={`transition-all duration-300 ease-out ${
-            isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
-          }`}
-        >
+      <main className="relative" style={{ paddingBottom: 'calc(var(--nav-height) + var(--safe-bottom) + 16px)' }}>
+        <div className={`transition-all duration-200 ease-out ${isTransitioning ? 'opacity-0 scale-[0.98]' : 'opacity-100 scale-100'}`}>
           {renderContent()}
         </div>
       </main>
 
+      <BottomNav activeTab={activeTab} setActiveTab={navigate} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+
       {toast && (
-        <div className="fixed bottom-6 right-6 z-[100] animate-scale-in">
-          <div className={`glass-strong px-5 py-3 flex items-center gap-3 shadow-2xl ${
+        <div className="fixed left-4 right-4 z-[200] animate-slide-up" style={{ bottom: 'calc(var(--nav-height) + var(--safe-bottom) + 12px)' }}>
+          <div className={`mx-auto max-w-sm glass px-5 py-3.5 flex items-center gap-3 ${
             toast.type === 'success' ? 'border-emerald-500/30' : 'border-red-500/30'
-          }`} style={{ borderRadius: '16px' }}>
-            <div className={`w-2 h-2 rounded-full ${
-              toast.type === 'success' ? 'bg-emerald-400' : 'bg-red-400'
-            }`} />
-            <span className="text-sm font-medium">{toast.message}</span>
+          }`} style={{ borderRadius: '16px', background: 'rgba(6,2,15,0.9)' }}>
+            <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${toast.type === 'success' ? 'bg-emerald-400 shadow-lg shadow-emerald-400/50' : 'bg-red-400 shadow-lg shadow-red-400/50'}`} />
+            <span className="text-sm font-semibold">{toast.msg}</span>
           </div>
         </div>
       )}
