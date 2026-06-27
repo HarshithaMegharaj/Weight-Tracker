@@ -116,7 +116,7 @@ export default function AITrainer({ profile, weightEntries }) {
           placeholder="Ask anything..." className="input-field flex-1" />
         <button type="submit" disabled={!input.trim()}
           className="w-12 h-12 rounded-2xl btn-primary flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed active:scale-90 transition-transform p-0">
-          <Send size={16} />
+          <Send size={16} className="relative z-10" />
         </button>
       </form>
     </div>

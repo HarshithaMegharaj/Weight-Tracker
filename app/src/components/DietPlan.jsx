@@ -22,7 +22,7 @@ const avoid = ['Fried foods (samosa, pakora)', 'White bread / maida', 'Sugary dr
 function MealCard({ meal, idx }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className={`glass-card overflow-hidden animate-fade-in-up stagger-${Math.min(idx + 1, 6)}`}>
+    <div className={`glass-card animate-fade-in-up stagger-${Math.min(idx + 1, 6)}`} style={{ overflow: 'hidden' }}>
       <button onClick={() => setOpen(!open)} className="w-full p-4 flex items-center gap-3.5 cursor-pointer active:bg-white/[0.02] transition-colors">
         <div className="w-11 h-11 rounded-[14px] bg-gradient-to-br from-purple-500/15 to-indigo-600/5 flex items-center justify-center border border-purple-500/10 text-[15px] font-extrabold text-purple-300">
           {idx + 1}
@@ -90,11 +90,11 @@ export default function DietPlan() {
           </div>
           <div className="space-y-2.5">{meals.map((m, i) => <MealCard key={i} meal={m} idx={i} />)}</div>
           <div className="glass-card p-5 animate-fade-in-up">
-            <h3 className="text-[13px] font-bold text-red-400/80 mb-3 flex items-center gap-2"><AlertTriangle size={14} /> Avoid</h3>
-            <div className="grid grid-cols-1 gap-2">
+            <h3 className="text-[13px] font-bold text-red-400/80 mb-4 flex items-center gap-2.5"><AlertTriangle size={14} /> Avoid</h3>
+            <div className="grid grid-cols-1 gap-3">
               {avoid.map((it, i) => (
-                <div key={i} className="flex items-center gap-2.5 text-[13px] text-[var(--text-sub)]">
-                  <span className="w-5 h-5 rounded-[8px] bg-red-500/10 flex items-center justify-center shrink-0 text-[10px] text-red-400 font-bold">x</span>{it}
+                <div key={i} className="flex items-center gap-3 text-[13px] text-[var(--text-sub)]">
+                  <span className="w-6 h-6 rounded-[8px] bg-red-500/10 flex items-center justify-center shrink-0 text-[10px] text-red-400 font-bold">x</span>{it}
                 </div>
               ))}
             </div>

@@ -50,7 +50,7 @@ export default function LogWeight({ onLog }) {
                 <Scale size={16} className="text-purple-400" />
               </div>
               <input type="number" step="0.1" min="20" max="300" value={weight} onChange={(e) => setWeight(e.target.value)}
-                placeholder="Enter weight" required className="input-field pl-[68px] text-xl font-extrabold" />
+                placeholder="Enter weight" required className="input-field pl-[72px] text-xl font-extrabold" />
             </div>
           </div>
 

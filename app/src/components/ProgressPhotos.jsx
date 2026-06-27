@@ -49,7 +49,7 @@ export default function ProgressPhotos({ weightEntries }) {
       <div className="grid grid-cols-2 gap-3">
         {photosEntries.map((entry, i) => (
           <div key={i} onClick={() => setLightbox(i)}
-            className={`glass-card overflow-hidden cursor-pointer active:scale-[0.97] transition-transform animate-fade-in-up stagger-${Math.min(i + 1, 6)}`}>
+            className={`glass-card cursor-pointer active:scale-[0.97] transition-transform animate-fade-in-up stagger-${Math.min(i + 1, 6)}`} style={{ overflow: 'hidden' }}>
             <div className="relative">
               <img src={entry.image} alt={`Progress ${format(new Date(entry.date), 'MMM dd')}`}
                 className="w-full h-40 object-cover" />

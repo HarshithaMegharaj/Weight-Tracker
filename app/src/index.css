@@ -59,9 +59,9 @@ h1, h2, h3 {
   backdrop-filter: blur(40px) saturate(1.6);
   -webkit-backdrop-filter: blur(40px) saturate(1.6);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 24px;
+  border-radius: 20px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   transition: transform 0.4s cubic-bezier(.17,.67,.35,1.1), box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
@@ -167,6 +167,7 @@ h1, h2, h3 {
   width: 200%;
   background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
   animation: btnShimmer 3s ease-in-out infinite;
+  pointer-events: none;
 }
 
 @keyframes btnShimmer {
