@@ -1,0 +1,17 @@
+{
+  "name": "FitGlow - AI Fitness Coach",
+  "short_name": "FitGlow",
+  "description": "Your personal AI fitness coach with weight tracking, diet plans, and sciatica-safe exercises",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06020F",
+  "theme_color": "#8B5CF6",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "categories": ["health", "fitness", "lifestyle"],
+  "lang": "en"
+}
