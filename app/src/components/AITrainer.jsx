@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, Send, Bot, User, Sparkles } from 'lucide-react';
+import { Send, Bot, User, Sparkles, ArrowRight } from 'lucide-react';
 
 function getTrainerResponse(message, profile, weightEntries) {
   const msg = message.toLowerCase();
@@ -35,7 +35,7 @@ Your pain WILL improve as you lose weight — every kg lost reduces spinal press
 **Quick Healthy Options:**
 - **Snack:** Roasted makhana (fox nuts) + green tea — only 100 cal, high protein
 - **Quick meal:** 2 boiled eggs + cucumber + a chapati — filling, ~250 cal
-- **Dinner idea:** Grilled fish with sautéed spinach and a small bowl of dal — ~400 cal
+- **Dinner idea:** Grilled fish with sauteed spinach and a small bowl of dal — ~400 cal
 
 **If you're craving something heavy:**
 - Chicken tikka (grilled, not fried) with raita instead of butter chicken
@@ -56,10 +56,10 @@ ${hasSciatica ? '**For sciatica:** Include fish 3-4 times a week — omega-3 is 
 
 **Today's Quick Workout (20 min, no equipment):**
 1. Brisk walking — 5 min warm-up
-2. Bodyweight squats (partial) — 3 × 12
-3. Glute bridges — 3 × 15
-4. Bird-Dog hold — 3 × 30 seconds
-5. Standing calf raises — 3 × 15
+2. Bodyweight squats (partial) — 3 x 12
+3. Glute bridges — 3 x 15
+4. Bird-Dog hold — 3 x 30 seconds
+5. Standing calf raises — 3 x 15
 6. Cool-down stretching — 5 min
 
 **Best exercises for weight loss + sciatica:**
@@ -92,7 +92,7 @@ ${latest ? `You started this journey and you're at ${latest.weight} kg. That tak
 3. Plan your next healthy meal
 4. Log your weight tomorrow — consistency beats perfection
 
-I'm here for you. Every single day. You WILL reach your goal. Now stop doubting yourself and let's go! 💪`;
+I'm here for you. Every single day. You WILL reach your goal.`;
   }
 
   if (msg.includes('water') || msg.includes('hydrat')) {
@@ -128,7 +128,7 @@ ${hasSciatica ? '- Keeps spinal discs hydrated — directly helps sciatica' : ''
 1. Set a consistent bedtime (same time every night)
 2. No screens 1 hour before bed (or use blue light filter)
 3. Drink warm turmeric milk at 9 PM — helps with sleep AND inflammation
-4. Keep room cool (18-20°C is ideal)
+4. Keep room cool (18-20C is ideal)
 5. No caffeine after 2 PM
 
 ${hasSciatica ? `**Sleeping with sciatica:**
@@ -146,113 +146,141 @@ ${hasSciatica ? `**Sleeping with sciatica:**
 
   return `${profile.name ? `Hi ${profile.name}! ` : ''}I'm your AI fitness trainer. Here's what I can help you with:
 
-${latest ? `**Your current status:** ${latest.weight} kg${profile.goalWeight ? ` → Goal: ${profile.goalWeight} kg (${(latest.weight - profile.goalWeight).toFixed(1)} kg to go)` : ''}` : '**Start by logging your weight** to get personalized advice.'}
+${latest ? `**Your current status:** ${latest.weight} kg${profile.goalWeight ? ` -> Goal: ${profile.goalWeight} kg (${(latest.weight - profile.goalWeight).toFixed(1)} kg to go)` : ''}` : '**Start by logging your weight** to get personalized advice.'}
 
 **Ask me about:**
-- 🍽️ **"What should I eat?"** — Personalized meal suggestions
-- 💪 **"Give me a workout"** — Sciatica-safe exercise plans
-- 😰 **"I had a bad day"** — Motivation & support
-- 🦴 **"My sciatica is acting up"** — Pain management tips
-- 💧 **"How much water?"** — Hydration guidance
-- 😴 **"I can't sleep"** — Sleep optimization
+- **"What should I eat?"** — Personalized meal suggestions
+- **"Give me a workout"** — Sciatica-safe exercise plans
+- **"I had a bad day"** — Motivation & support
+- **"My sciatica is acting up"** — Pain management tips
+- **"How much water?"** — Hydration guidance
+- **"I can't sleep"** — Sleep optimization
 
-I'm strict but I care. Let's make you glow! ✨`;
+I'm strict but I care. Let's make you glow!`;
 }
 
 export default function AITrainer({ profile, weightEntries }) {
   const [messages, setMessages] = useState([
-    { role: 'bot', text: `Welcome${profile.name ? `, ${profile.name}` : ''}! I'm your personal AI trainer. I know about your health conditions and dietary preferences. Ask me anything — nutrition, exercise, pain management, or just need motivation. I'm here to help you transform! 💪` }
+    { role: 'bot', text: `Welcome${profile.name ? `, ${profile.name}` : ''}! I'm your personal AI trainer. I know about your health conditions and dietary preferences. Ask me anything — nutrition, exercise, pain management, or just need motivation. I'm here to help you transform!` }
   ]);
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, isTyping]);
 
-  const handleSend = (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-    const userMsg = input.trim();
+  const handleSend = (text) => {
+    const userMsg = (text || input).trim();
+    if (!userMsg) return;
     setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setInput('');
+    setIsTyping(true);
     setTimeout(() => {
       const response = getTrainerResponse(userMsg, profile, weightEntries);
       setMessages(prev => [...prev, { role: 'bot', text: response }]);
-    }, 500);
+      setIsTyping(false);
+    }, 800);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSend();
   };
 
   const quickActions = [
-    'What should I eat?',
-    'My sciatica hurts',
-    'Give me a workout',
-    'I need motivation',
-    'Water intake?',
-    'Sleep tips',
+    { label: 'What should I eat?', icon: '🍽' },
+    { label: 'My sciatica hurts', icon: '🦴' },
+    { label: 'Give me a workout', icon: '💪' },
+    { label: 'I need motivation', icon: '⚡' },
+    { label: 'Water intake?', icon: '💧' },
+    { label: 'Sleep tips', icon: '🌙' },
   ];
 
   return (
-    <div className="flex flex-col h-[calc(100vh-120px)]">
-      <div className="mb-4">
-        <h2 className="text-2xl font-bold mb-1 flex items-center gap-2">
-          AI Trainer <Sparkles size={20} className="text-purple-400" />
+    <div className="flex flex-col h-[calc(100vh-4rem)]">
+      <div className="mb-5 animate-fade-in-up">
+        <h2 className="text-3xl font-bold flex items-center gap-3" style={{ fontFamily: "'Playfair Display', serif" }}>
+          AI Trainer
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-500/20 to-indigo-500/10 flex items-center justify-center">
+            <Sparkles size={16} className="text-purple-400" />
+          </div>
         </h2>
-        <p className="text-gray-400 text-sm">Your strict but caring personal fitness coach</p>
+        <p className="text-gray-500 text-sm mt-1">Your strict but caring personal fitness coach</p>
       </div>
 
-      <div className="flex-1 glass p-4 overflow-y-auto scrollbar-thin space-y-4 mb-4">
+      <div className="flex-1 glass-card p-5 overflow-y-auto scrollbar-thin space-y-4 mb-4">
         {messages.map((msg, i) => (
-          <div key={i} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-            <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0
-              ${msg.role === 'user' ? 'bg-purple-500/20' : 'bg-emerald-500/20'}`}>
-              {msg.role === 'user' ? <User size={16} className="text-purple-300" /> : <Bot size={16} className="text-emerald-300" />}
-            </div>
-            <div className={`max-w-[80%] p-3 rounded-xl text-sm leading-relaxed whitespace-pre-line
+          <div key={i} className={`flex gap-3 animate-fade-in ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
+            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0
               ${msg.role === 'user'
-                ? 'bg-purple-500/20 border border-purple-500/20 text-white'
-                : 'bg-white/5 border border-white/10 text-gray-200'}`}>
+                ? 'bg-gradient-to-br from-purple-500/20 to-indigo-500/10 border border-purple-500/15'
+                : 'bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/15'}`}
+            >
+              {msg.role === 'user'
+                ? <User size={15} className="text-purple-300" />
+                : <Bot size={15} className="text-emerald-300" />}
+            </div>
+            <div className={`max-w-[80%] px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-line
+              ${msg.role === 'user'
+                ? 'bg-gradient-to-br from-purple-500/15 to-indigo-500/10 border border-purple-500/15 text-gray-200 rounded-br-md'
+                : 'bg-white/[0.03] border border-white/[0.06] text-gray-300 rounded-bl-md'}`}
+            >
               {msg.text.split(/(\*\*.*?\*\*)/).map((part, j) =>
                 part.startsWith('**') && part.endsWith('**')
-                  ? <strong key={j} className="text-white">{part.slice(2, -2)}</strong>
+                  ? <strong key={j} className="text-white font-semibold">{part.slice(2, -2)}</strong>
                   : part
               )}
             </div>
           </div>
         ))}
+        {isTyping && (
+          <div className="flex gap-3 animate-fade-in">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/15 flex items-center justify-center">
+              <Bot size={15} className="text-emerald-300" />
+            </div>
+            <div className="bg-white/[0.03] border border-white/[0.06] px-4 py-3 rounded-2xl rounded-bl-md">
+              <div className="flex gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-gray-500 animate-bounce" style={{ animationDelay: '0ms' }} />
+                <div className="w-2 h-2 rounded-full bg-gray-500 animate-bounce" style={{ animationDelay: '150ms' }} />
+                <div className="w-2 h-2 rounded-full bg-gray-500 animate-bounce" style={{ animationDelay: '300ms' }} />
+              </div>
+            </div>
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
 
       {messages.length <= 2 && (
-        <div className="flex flex-wrap gap-2 mb-3">
+        <div className="flex flex-wrap gap-2 mb-3 animate-fade-in-up">
           {quickActions.map((action, i) => (
             <button
               key={i}
-              onClick={() => { setInput(action); }}
-              className="px-3 py-1.5 rounded-xl text-xs glass text-gray-300 hover:text-white cursor-pointer transition-colors"
+              onClick={() => handleSend(action.label)}
+              className="chip flex items-center gap-2 text-xs"
             >
-              {action}
+              <span>{action.icon}</span> {action.label}
             </button>
           ))}
         </div>
       )}
 
-      <form onSubmit={handleSend} className="flex gap-2">
+      <form onSubmit={handleSubmit} className="flex gap-3">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask your trainer anything..."
-          className="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10
-            focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none
-            text-white placeholder-gray-500 transition-colors"
+          className="input-field flex-1"
         />
         <button
           type="submit"
           disabled={!input.trim()}
-          className="px-4 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white cursor-pointer
-            transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-12 h-12 rounded-2xl btn-primary flex items-center justify-center cursor-pointer
+            disabled:opacity-30 disabled:cursor-not-allowed disabled:transform-none"
         >
-          <Send size={18} />
+          <Send size={16} />
         </button>
       </form>
     </div>
