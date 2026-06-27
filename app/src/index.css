@@ -317,7 +317,7 @@ h1, h2, h3 {
 /* ========== BENTO GRID ========== */
 .bento-grid {
   display: grid;
-  gap: 12px;
+  gap: 10px;
   grid-template-columns: repeat(2, 1fr);
 }
 

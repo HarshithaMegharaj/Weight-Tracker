@@ -55,7 +55,7 @@ export default function SettingsPage({ weightEntries, setWeightEntries, profile,
   ];
 
   return (
-    <div className="px-5 pt-6 space-y-5">
+    <div style={{ padding: "24px 20px 0" }} className="space-y-5">
       <div className="animate-fade-in-up">
         <p className="text-[11px] text-purple-400 font-bold uppercase tracking-widest">Preferences</p>
         <h1 className="text-[28px] font-extrabold mt-1">Settings</h1>

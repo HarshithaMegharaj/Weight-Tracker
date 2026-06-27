@@ -20,7 +20,7 @@ export default function ProgressPhotos({ weightEntries }) {
 
   if (photosEntries.length === 0) {
     return (
-      <div className="px-5 pt-6 space-y-5">
+      <div style={{ padding: "24px 20px 0" }} className="space-y-5">
         <div className="animate-fade-in-up">
           <p className="text-[11px] text-purple-400 font-bold uppercase tracking-widest">Gallery</p>
           <h1 className="text-[28px] font-extrabold mt-1">Progress Photos</h1>
@@ -39,7 +39,7 @@ export default function ProgressPhotos({ weightEntries }) {
   }
 
   return (
-    <div className="px-5 pt-6 space-y-5">
+    <div style={{ padding: "24px 20px 0" }} className="space-y-5">
       <div className="animate-fade-in-up">
         <p className="text-[11px] text-purple-400 font-bold uppercase tracking-widest">Gallery</p>
         <h1 className="text-[28px] font-extrabold mt-1">Progress Photos</h1>

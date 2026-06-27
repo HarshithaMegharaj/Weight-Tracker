@@ -5,21 +5,21 @@ import { format, differenceInDays } from 'date-fns';
 
 function StatCard({ icon: Icon, label, value, unit, trend, trendValue, iconBg, delay = 0, span2 = false }) {
   return (
-    <div className={`glass-card p-5 animate-fade-in-up stagger-${delay + 1} ${span2 ? 'bento-span-2' : ''}`}>
-      <div className="flex items-center justify-between mb-3">
-        <div className={`w-11 h-11 rounded-[15px] ${iconBg} flex items-center justify-center shadow-lg`}>
-          <Icon size={19} className="text-white glow-icon" />
+    <div className={`glass-card p-4 animate-fade-in-up stagger-${delay + 1} ${span2 ? 'bento-span-2' : ''}`}>
+      <div className="flex items-center justify-between mb-2.5">
+        <div className={`w-9 h-9 rounded-[12px] ${iconBg} flex items-center justify-center shadow-lg`}>
+          <Icon size={16} className="text-white glow-icon" />
         </div>
         {trend !== undefined && (
-          <div className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-[11px] font-bold
-            ${trend === 'down' ? 'bg-emerald-500/12 text-emerald-400 shadow-[0_0_12px_rgba(45,212,191,0.1)]' : 'bg-red-500/12 text-red-400'}`}>
-            {trend === 'down' ? <TrendingDown size={11} /> : <TrendingUp size={11} />}
+          <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold
+            ${trend === 'down' ? 'bg-emerald-500/12 text-emerald-400' : 'bg-red-500/12 text-red-400'}`}>
+            {trend === 'down' ? <TrendingDown size={10} /> : <TrendingUp size={10} />}
             {trendValue}
           </div>
         )}
       </div>
-      <p className="text-[28px] font-extrabold tracking-tight leading-none">{value}</p>
-      <p className="text-[11px] text-[var(--text-dim)] mt-1.5 font-semibold uppercase tracking-wider">{label}</p>
+      <p className="text-[24px] font-extrabold tracking-tight leading-none">{value}</p>
+      <p className="text-[10px] text-[var(--text-dim)] mt-1.5 font-bold uppercase tracking-wider">{label}</p>
       {unit && <p className="text-[11px] text-[var(--text-sub)] mt-0.5">{unit}</p>}
     </div>
   );
@@ -76,7 +76,7 @@ export default function Dashboard({ weightEntries, profile, navigate }) {
   const tips = getTips(stats, profile);
 
   return (
-    <div className="px-5 pt-6 space-y-5">
+    <div style={{ padding: '24px 20px 0' }} className="space-y-5">
       <div className="animate-fade-in-up">
         <p className="text-[11px] text-purple-400 font-bold uppercase tracking-widest">{greeting()}</p>
         <h1 className="text-[28px] font-extrabold mt-1 leading-tight">

@@ -56,7 +56,7 @@ export default function AITrainer({ profile, weightEntries }) {
 
   return (
     <div className="flex flex-col" style={{ height: 'calc(100dvh - var(--nav-height) - var(--safe-bottom))' }}>
-      <div className="px-5 pt-6 pb-3 animate-fade-in-up shrink-0">
+      <div style={{ padding: '24px 20px 12px' }} className="animate-fade-in-up shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-[14px] bg-gradient-to-br from-emerald-500/20 to-teal-500/10 flex items-center justify-center border border-emerald-500/15">
             <Sparkles size={18} className="text-emerald-400" />

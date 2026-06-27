@@ -80,7 +80,7 @@ export default function App() {
       <div className="blob w-[280px] h-[280px] bg-teal-600 bottom-32 -left-20" style={{ animationDelay: '8s' }} />
       <div className="blob w-[200px] h-[200px] bg-indigo-600 top-1/2 left-1/2" style={{ animationDelay: '16s' }} />
 
-      <main className="relative" style={{ paddingBottom: 'calc(var(--nav-height) + var(--safe-bottom) + 20px)' }}>
+      <main className="relative overflow-x-hidden" style={{ paddingBottom: 'calc(var(--nav-height) + var(--safe-bottom) + 20px)' }}>
         <div className={`transition-all duration-200 ease-out ${
           animState === 'hiding' ? 'opacity-0 scale-[0.97] translate-y-2' :
           animState === 'entering' ? 'opacity-0 scale-[0.97]' :
